@@ -16,20 +16,18 @@ const StoreSchema = new mongoose.Schema({
     ,
     location: {
         type: {
-            type: {
                 type: String,
                 enum:['Point']
             },
             coordinates: {
                 type: [Number],
                 index:'2dsphere'
-            },
-            formattedAddress:String
         },
-        createdAt: {
-            type: Date,
-            default:Date.now
-        }
+        formattedAddress:String
+    },
+    createdAt: {
+        type: Date,
+        default:Date.now
     }
 })
 
@@ -41,8 +39,6 @@ StoreSchema.pre('save', async function(next){
         coordinates: [loc[0].longitude, loc[0].latitude],
         formattedAddress: loc[0].formattedAddress
     }
-    // console.log([loc[0].longitude, loc[0].latitude])
-    console.log(location)
     //Do not save address
     this.address = undefined
     next()
